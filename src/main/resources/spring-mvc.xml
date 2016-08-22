@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+     	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd   
+    	http://www.springframework.org/schema/aop   
+        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+     http://www.springframework.org/schema/mvc
+     http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<!-- 提供对spring mvc注解、验证支持 -->
+	<mvc:annotation-driven />
+	<!-- 自动扫描 -->
+	<context:component-scan base-package="com.cathham.train.study.controller" />
+	
+	<context:annotation-config />
+
+	<!-- 定义静态访问文件路径(不让spring拦截) -->
+	<mvc:resources mapping="/static/**" location="/static/" />
+	
+	<!-- 控制spring跳转页面的路径是/WEB-INF/jsps/( 中间的一些中径/xxx ).jsp -->
+	<bean id="jspViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 引入JSTL标签库 -->
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<!-- 路径前辍 -->
+		<property name="prefix" value="/WEB-INF/" />
+		<!-- 路径后辍 -->
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- 另外最好还要加入DefaultAnnotationHandlerMapping，不然会被 XML或其它的映射覆盖！ -->
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+	<!-- 支持上传文件 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="maxUploadSize" value="36700160" />
+		<property name="uploadTempDir" value="assets/tmpDir" />
+	</bean>
+	
+</beans>
